@@ -1,22 +1,25 @@
-var $cart = document.querySelector('#cart tbody');
-var $calc = document.getElementById('calc');
+let cart = document.querySelector('#cart tbody');
+let calc = document.getElementById('calc');
+
+//let deleteButtons = document.querySelectorAll('.btn-delete')
+//console.log(deleteButtons)
+//console.log(deleteButtons[1])
+
+let deleteButton1 = document.querySelectorAll('.btn-delete')[0]
+console.log(deleteButton1)
+
+let deleteButton2 = document.querySelectorAll('.btn-delete')[1]
+console.log(deleteButton2)
 
 
-let $product = document.querySelectorAll('.product')[0]
 
-
-function updateSubtot($product) {
+function updateSubtot(product) {
   // Iteration 1.1
-  let priceUnit = $product.querySelectorAll('.pu span')[0].innerText;
-  let quantity = $product.querySelectorAll('input')[0].value;
-
-//  console.log(priceUnit)
-//  console.log(quantity)
+  let priceUnit = product.querySelectorAll('.pu span')[0].innerText;
+  let quantity = product.querySelectorAll('input')[0].value;
 
   return priceUnit * quantity
 }
-
-//updateSubtot($product)
 
 
 function calcAll(event) {
@@ -24,36 +27,41 @@ function calcAll(event) {
 
   //console.log("event.currentTarget", event.currentTarget)
 
-  
-  let totalPrice = Number(document.querySelectorAll('h2 span')[0].innerText);
-  //console.log(typeof totalPrice)
-  //console.log(totalPrice)
+  let totalPrice = 0;
+
+  for (let i=0; i < document.getElementsByClassName('product').length; i++) {
 
 
-//  for (let i=0; i < 2; i++) {
+    let product = document.getElementsByClassName('product')[i];
+    console.log("product is " + product)
 
-  for (let i=0; i < document.querySelectorAll('.product')[0].length; i++) {
-
-
-    let $product = document.querySelectorAll('.product')[i];
-    console.log("product is " + $product)
-
-    let subTotal = $product.querySelectorAll('.pu span')[i].innerText;
+    let subTotal = document.querySelectorAll('.subtot span')[i];
     console.log("subTotal is " + subTotal)
-    
-    subTotal = updateSubtot($product)
+
+    subTotal.innerText = updateSubtot(product)
     console.log("subTotal is now " + subTotal)
 
-      //add up all subTotals
+    //add up all subTotals
+    totalPrice += Number(subTotal.innerText)
+    document.querySelectorAll("h2 span")[0].innerText = totalPrice
+    console.log("totalPrice returned is " + totalPrice)
 
-      totalPrice = subTotal
-      console.log("totalPrice returned is " + totalPrice)
-
-   
   }
 
+}
+calc.onclick = calcAll;
 
+
+function deleteProduct(event){
+  //event.currentTarget
+  //console.log("event.currentTarget", event.currentTarget)
+
+  let productTr = event.currentTarget.parentNode.parentNode
+  //console.log("productTr is " + productTr)
+
+  productTr.remove()
 
 }
-$calc.onclick = calcAll;
 
+deleteButton1.onclick = deleteProduct;
+deleteButton2.onclick = deleteProduct;
