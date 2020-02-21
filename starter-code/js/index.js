@@ -1,21 +1,24 @@
 // ALL DOM ELEMENTS WITH ELEMENT AT THE END OF THE NAME
 
-let cart = document.querySelector('#cart tbody');
-let calc = document.getElementById('calc');
-let product = document.getElementsByClassName('product')[0];
-let deleteButton1 = document.querySelectorAll('.btn-delete')[0]
-let deleteButton2 = document.querySelectorAll('.btn-delete')[1]
-//let deleteButton3 = document.querySelectorAll('.btn-delete')[2]
-let createBtn = document.getElementById('create');
+let cartEL = document.querySelector('#cart tbody');
+let calcEl = document.getElementById('calc');
+let productEl = document.getElementsByClassName('product')[0];
+let tbodyEl = document.getElementsByTagName('tbody')[0];
+let createBtnEl = document.getElementById('create');
+var deleteBtnEl = document.querySelectorAll('.btn-delete');
 
 
 
+for(let i=0; i<deleteBtnEl.length; i++){
+  deleteBtnEl[i].onclick = deleteProduct;
+}
 
 
-function updateSubtot(product) {
+
+function updateSubtot(productEl) {
   // Iteration 1.1
-  let priceUnit = product.querySelectorAll('.pu span')[0].innerText;
-  let quantity = product.querySelectorAll('input')[0].value;
+  let priceUnit = productEl.querySelectorAll('.pu span')[0].innerText;
+  let quantity = productEl.querySelectorAll('input')[0].value;
 
   return priceUnit * quantity
 }
@@ -55,7 +58,7 @@ function calcAllHandler(event) {
   }
 
 }
-calc.onclick = calcAllHandler;
+calcEl.onclick = calcAllHandler;
 
 
 
@@ -76,25 +79,21 @@ $calc.onclick = calcAllHandler;
 */
 
 
+//Ian's code -- WITH REMOVE CHILD*****
+// function deleteProduct(){
 
+//   let activeButton = event.currentTarget;
+//   let parentProduct = activeButton.parentNode.parentNode;
+//   tbody.removeChild(parentProduct);
+
+// }
 
 
 function deleteProduct(event){
-  //event.currentTarget
-  //console.log("event.currentTarget", event.currentTarget)
-
-  //let productTr = event.currentTarget.parentNode.parentNode
-  //console.log("productTr is " + productTr)
-
-  //productTr.remove()
 
   event.currentTarget.parentNode.parentNode.remove()
 
 }
-
-deleteButton1.onclick = deleteProduct;
-deleteButton2.onclick = deleteProduct;
-//deleteButton3.onclick = deleteProduct;
 
 
 
@@ -112,15 +111,15 @@ function createProduct(event){
 
   // create a new product tr
 
-  let tbody = document.getElementsByTagName('tbody')[0];
-  let newProductElement = tbody.querySelector(".product").cloneNode(true)
-  tbody.appendChild(newProductElement)
+  let newProductEl = tbodyEl.querySelector(".product").cloneNode(true)
+  tbodyEl.appendChild(newProductEl)
 
-  newProductElement.querySelectorAll('.pu span')[0].innerText = inputPrice
-  newProductElement.querySelectorAll('.product span')[0].innerText = inputProductName
-  newProductElement.querySelectorAll('input')[0].value = 0
+  newProductEl.querySelectorAll('.pu span')[0].innerText = inputPrice
+  newProductEl.querySelectorAll('.product span')[0].innerText = inputProductName
+  newProductEl.querySelectorAll('input')[0].value = 0
+  newProductEl.querySelector('.btn-delete').onclick = deleteProduct;
   
   
 }
 
-createBtn.onclick = createProduct;
+createBtnEl.onclick = createProduct;
